@@ -26,7 +26,7 @@ function getBotOptions() {
 function sendNotfication(text) {
   const bot = createBot();
   const options = getBotOptions();
-  bot.sendMessage(options.chatId, text);
+  bot.sendMessage(options.chatid, text);
 }
 
 const telegramSenderThing = {
