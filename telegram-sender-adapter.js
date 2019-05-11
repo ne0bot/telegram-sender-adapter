@@ -23,7 +23,7 @@ function getBotOptions() {
   };
 }
 
-function sendNotfication(text) {
+function sendNotification(text) {
   const bot = createBot();
   const options = getBotOptions();
   bot.sendMessage(options.chatid, text);
@@ -94,7 +94,7 @@ class TelegramSenderDevice extends Device {
     action.start();
 
     if (action.name === 'sendNotification') {
-      sendNotfication(action.input.resp);
+      sendNotification(action.input.resp);
     }
 
     action.finish();
