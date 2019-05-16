@@ -5,6 +5,7 @@ const {
   Adapter,
   Database,
   Device,
+  Property
 } = require('gateway-addon');
 
 const config = {
@@ -34,7 +35,17 @@ const telegramSenderThing = {
   '@context': 'https://iot.mozilla.org/schemas',
   '@type': [],
   name: 'Telegram Sender',
-  properties: [],
+  properties:
+  {
+    text: {
+      // '@type': 'OnOffProperty',
+      label: 'Text',
+      name: 'text',
+      type: 'string',
+      value: 'false',
+    }
+  }
+  ,
   actions: [
     {
       name: 'sendNotification',
@@ -55,6 +66,35 @@ const telegramSenderThing = {
   events: [],
 };
 
+
+class TelegramProperty extends Property {
+  constructor(device, name, propertyDescription) {
+    super(device, name, propertyDescription);
+    this.setCachedValue(propertyDescription.value);
+    this.device.notifyPropertyChanged(this);
+  }
+
+  /**
+   * Set the value of the property.
+   *
+   * @param {*} value The new value to set
+   * @returns a promise which resolves to the updated value.
+   *
+   * @note it is possible that the updated value doesn't match
+   * the value passed in.
+   */
+  setValue(value) {
+    return new Promise((resolve, reject) => {
+      super.setValue(value).then((updatedValue) => {
+        sendNotification(updatedValue);
+        resolve(updatedValue);
+        this.device.notifyPropertyChanged(this);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+}
 
 /**
  * An telegram sending device
@@ -84,7 +124,11 @@ class TelegramSenderDevice extends Device {
     for (const event of template.events) {
       this.addEvent(event.name, event.metadata);
     }
-
+    for (const propertyName in template.properties) {
+      const propertyDescription = template.properties[propertyName];
+      const property = new TelegramProperty(this, propertyName, propertyDescription);
+      this.properties.set(propertyName, property);
+    }
     this.adapter.handleDeviceAdded(this);
   }
 
@@ -101,10 +145,10 @@ class TelegramSenderDevice extends Device {
   }
 }
 
-  /**
- * Telegram Sender adapter
- * Instantiates one telegram sender device
- */
+/**
+* Telegram Sender adapter
+* Instantiates one telegram sender device
+*/
 class TelegramSenderAdapter extends Adapter {
   constructor(adapterManager, manifestName) {
     super(adapterManager, 'telegram-sender', manifestName);
