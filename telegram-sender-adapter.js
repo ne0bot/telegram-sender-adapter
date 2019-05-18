@@ -5,22 +5,22 @@ const {
   Adapter,
   Database,
   Device,
-  Property
+  Property,
 } = require('gateway-addon');
 
 const config = {
   token: null,
-  chatid: null
+  chatid: null,
 };
 
 function createBot() {
-  return new TelegramBot(config.token, { polling: false });
+  return new TelegramBot(config.token, {polling: false});
 }
 
 function getBotOptions() {
   return {
     token: config.token,
-    chatid: config.chatid
+    chatid: config.chatid,
   };
 }
 
@@ -43,9 +43,8 @@ const telegramSenderThing = {
       name: 'text',
       type: 'string',
       value: 'false',
-    }
-  }
-  ,
+    },
+  },
   actions: [
     {
       name: 'sendNotification',
@@ -61,7 +60,7 @@ const telegramSenderThing = {
           },
         },
       },
-    }
+    },
   ],
   events: [],
 };
@@ -126,7 +125,8 @@ class TelegramSenderDevice extends Device {
     }
     for (const propertyName in template.properties) {
       const propertyDescription = template.properties[propertyName];
-      const property = new TelegramProperty(this, propertyName, propertyDescription);
+      const property = new TelegramProperty(this, propertyName,
+                                            propertyDescription);
       this.properties.set(propertyName, property);
     }
     this.adapter.handleDeviceAdded(this);
@@ -169,7 +169,7 @@ class TelegramSenderAdapter extends Adapter {
   }
 
   addAllThings() {
-    this.loadConfig().catch(function (err) {
+    this.loadConfig().catch(function(err) {
       console.warn('Error updating config', err);
     });
 
