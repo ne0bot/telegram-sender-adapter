@@ -1,7 +1,7 @@
 {
   "name": "telegram-sender-adapter",
   "display_name": "Telegram notification Sender",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Simple telegram sending actions. Needs to be configured with chatid and token.",
   "main": "index.js",
   "scripts": {
