@@ -6,7 +6,7 @@ script:
   - npm run lint
 
 before_deploy:
-  - node -e "if(require('./package.json').version !== '$TRAVIS_TAG') { console.error('Git tag does not match package version'); process.exit(1); }"
+  - node -e "console.log('$TRAVIS_TAG'); if(require('./package.json').version !== '$TRAVIS_TAG') { console.error('Git tag does not match package version'); process.exit(1); }"
   - ./package.sh
 
 deploy:
