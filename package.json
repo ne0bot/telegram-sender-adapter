@@ -22,7 +22,8 @@
     "SHA256SUMS",
     "index.js",
     "node_modules",
-    "telegram-sender-adapter.js"
+    "telegram-sender-adapter.js",
+    "telegram-notifier.js"
   ],
   "moziot": {
     "api": {
