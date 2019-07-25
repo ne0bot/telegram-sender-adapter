@@ -3,7 +3,7 @@ const TelegramBot = require('node-telegram-bot-api');
 
 const {
   Adapter,
-  Database,
+ // Database,
   Device,
   Property,
 } = require('gateway-addon');
@@ -27,7 +27,9 @@ function getBotOptions() {
 function sendNotification(text) {
   const bot = createBot();
   const options = getBotOptions();
-  bot.sendMessage(options.chatid, text);
+  return new Promise(function(resolve, reject) {
+    bot.sendMessage(options.chatid, text);
+  });
 }
 
 const telegramSenderThing = {
@@ -35,16 +37,16 @@ const telegramSenderThing = {
   '@context': 'https://iot.mozilla.org/schemas',
   '@type': [],
   name: 'Telegram Sender',
-  properties:
+ /* properties:
   {
     text: {
-      // '@type': 'OnOffProperty',
+     
       label: 'Text',
       name: 'text',
       type: 'string',
       value: 'false',
     },
-  },
+  },*/
   actions: [
     {
       name: 'sendNotification',
@@ -65,7 +67,7 @@ const telegramSenderThing = {
   events: [],
 };
 
-
+/*
 class TelegramProperty extends Property {
   constructor(device, name, propertyDescription) {
     super(device, name, propertyDescription);
@@ -81,7 +83,7 @@ class TelegramProperty extends Property {
    *
    * @note it is possible that the updated value doesn't match
    * the value passed in.
-   */
+   * /
   setValue(value) {
     return new Promise((resolve, reject) => {
       super.setValue(value).then((updatedValue) => {
@@ -94,7 +96,7 @@ class TelegramProperty extends Property {
     });
   }
 }
-
+*/
 /**
  * An telegram sending device
  */
@@ -123,12 +125,12 @@ class TelegramSenderDevice extends Device {
     for (const event of template.events) {
       this.addEvent(event.name, event.metadata);
     }
-    for (const propertyName in template.properties) {
+ /*   for (const propertyName in template.properties) {
       const propertyDescription = template.properties[propertyName];
       const property = new TelegramProperty(this, propertyName,
                                             propertyDescription);
       this.properties.set(propertyName, property);
-    }
+    }*/
     this.adapter.handleDeviceAdded(this);
   }
 
@@ -138,7 +140,7 @@ class TelegramSenderDevice extends Device {
     action.start();
 
     if (action.name === 'sendNotification') {
-      sendNotification(action.input.resp);
+      await   sendNotification(action.input.resp);
     }
 
     action.finish();
@@ -150,28 +152,21 @@ class TelegramSenderDevice extends Device {
 * Instantiates one telegram sender device
 */
 class TelegramSenderAdapter extends Adapter {
-  constructor(adapterManager, manifestName) {
-    super(adapterManager, 'telegram-sender', manifestName);
+  constructor(addonManager, manifest) {
+    super(addonManager, 'telegram-sender', manifest.name);
 
-    adapterManager.addAdapter(this);
-    this.addAllThings();
-  }
+    addonManager.addAdapter(this);
 
-  startPairing() {
-    this.addAllThings();
-  }
-
-  async loadConfig() {
+/*  async loadConfig() {
     const db = new Database(this.packageName);
     await db.open();
     const dbConfig = await db.loadConfig();
-    Object.assign(config, dbConfig);
+    Object.assign(config, dbConfig);*/
+    Object.assign(config, manifest.moziot.config);
+    this.startPairing();
   }
 
-  addAllThings() {
-    this.loadConfig().catch(function(err) {
-      console.warn('Error updating config', err);
-    });
+  startPairing() {
 
     if (!this.devices['telegram-sender-0']) {
       new TelegramSenderDevice(this, 'telegram-sender-0', telegramSenderThing);

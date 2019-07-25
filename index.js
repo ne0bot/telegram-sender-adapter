@@ -10,6 +10,16 @@
 
 const TelegramSenderAdapter = require('./telegram-sender-adapter');
 
-module.exports = function(adapterManager, manifest) {
-  new TelegramSenderAdapter(adapterManager, manifest.name);
+
+module.exports = (addonManager, manifest) => {
+//  new TelegramSenderAdapter(addonManager, manifest);
+
+  try {
+    const TelegramNotifier = require('./telegram-notifier');
+    new TelegramNotifier(addonManager, manifest);
+  } catch (e) {
+    if (!(e instanceof TypeError)) {
+      console.error(e);
+    }
+  }
 };
