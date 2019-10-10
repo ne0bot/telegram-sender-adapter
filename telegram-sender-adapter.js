@@ -1,11 +1,11 @@
 process.env.NTBA_FIX_319 = 1;
 const TelegramBot = require('node-telegram-bot-api');
-
+const manifest = require('./manifest.json');
 const {
   Adapter,
- // Database,
+  Database,
   Device,
-  Property,
+  // Property,
 } = require('gateway-addon');
 
 const config = {
@@ -27,9 +27,7 @@ function getBotOptions() {
 function sendNotification(text) {
   const bot = createBot();
   const options = getBotOptions();
-  return new Promise(function(resolve, reject) {
-    bot.sendMessage(options.chatid, text);
-  });
+  return bot.sendMessage(options.chatid, text);
 }
 
 const telegramSenderThing = {
@@ -37,16 +35,18 @@ const telegramSenderThing = {
   '@context': 'https://iot.mozilla.org/schemas',
   '@type': [],
   name: 'Telegram Sender',
- /* properties:
+  /*
+  properties:
   {
     text: {
-     
+
       label: 'Text',
       name: 'text',
       type: 'string',
       value: 'false',
     },
-  },*/
+  },
+  */
   actions: [
     {
       name: 'sendNotification',
@@ -125,12 +125,14 @@ class TelegramSenderDevice extends Device {
     for (const event of template.events) {
       this.addEvent(event.name, event.metadata);
     }
- /*   for (const propertyName in template.properties) {
+    /*
+    for (const propertyName in template.properties) {
       const propertyDescription = template.properties[propertyName];
       const property = new TelegramProperty(this, propertyName,
                                             propertyDescription);
       this.properties.set(propertyName, property);
-    }*/
+    }
+    */
     this.adapter.handleDeviceAdded(this);
   }
 
@@ -140,7 +142,7 @@ class TelegramSenderDevice extends Device {
     action.start();
 
     if (action.name === 'sendNotification') {
-      await   sendNotification(action.input.resp);
+      await sendNotification(action.input.resp);
     }
 
     action.finish();
@@ -152,22 +154,22 @@ class TelegramSenderDevice extends Device {
 * Instantiates one telegram sender device
 */
 class TelegramSenderAdapter extends Adapter {
-  constructor(addonManager, manifest) {
-    super(addonManager, 'telegram-sender', manifest.name);
+  constructor(addonManager) {
+    super(addonManager, 'telegram-sender', manifest.id);
 
     addonManager.addAdapter(this);
 
-/*  async loadConfig() {
-    const db = new Database(this.packageName);
-    await db.open();
-    const dbConfig = await db.loadConfig();
-    Object.assign(config, dbConfig);*/
-    Object.assign(config, manifest.moziot.config);
-    this.startPairing();
+    const db = new Database(manifest.id);
+    db.open().then(() => {
+      return db.loadConfig();
+    }).then((dbConfig) => {
+      Object.assign(config, dbConfig);
+
+      this.startPairing();
+    }).catch(console.error);
   }
 
   startPairing() {
-
     if (!this.devices['telegram-sender-0']) {
       new TelegramSenderDevice(this, 'telegram-sender-0', telegramSenderThing);
     }
