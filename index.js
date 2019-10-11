@@ -8,15 +8,15 @@
 
 'use strict';
 
-const TelegramSenderAdapter = require('./telegram-sender-adapter');
+// const TelegramSenderAdapter = require('./telegram-sender-adapter');
 
 
-module.exports = (addonManager, manifest) => {
-//  new TelegramSenderAdapter(addonManager, manifest);
+module.exports = (addonManager) => {
+  // new TelegramSenderAdapter(addonManager);
 
   try {
     const TelegramNotifier = require('./telegram-notifier');
-    new TelegramNotifier(addonManager, manifest);
+    new TelegramNotifier(addonManager);
   } catch (e) {
     if (!(e instanceof TypeError)) {
       console.error(e);
