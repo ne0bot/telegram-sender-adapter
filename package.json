@@ -1,7 +1,7 @@
 {
   "name": "telegram-sender-adapter",
   "display_name": "Telegram",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Simple telegram sending actions. Needs to be configured with chatid and token.",
   "main": "index.js",
   "scripts": {
@@ -56,11 +56,11 @@
     }
   },
   "dependencies": {
-    "node-telegram-bot-api": "^0.30.0"
+    "node-telegram-bot-api": "^0.40.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.5.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
     "lint": "^0.7.0"
   }
 }
