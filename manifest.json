@@ -1,5 +1,5 @@
 {
-  "author": "ne0bot",
+  "author": "Michael Stegeman",
   "description": "Simple telegram sending actions. Needs to be configured with chatid and token.",
   "gateway_specific_settings": {
     "webthings": {
@@ -9,7 +9,7 @@
       "strict_min_version": "0.10.0"
     }
   },
-  "homepage_url": "https://github.com/ne0bot/telegram-sender-adapter",
+  "homepage_url": "https://github.com/mrstegeman/telegram-sender-adapter",
   "id": "telegram-sender-adapter",
   "license": "MPL-2.0",
   "manifest_version": 1,

@@ -7,15 +7,15 @@
   "scripts": {
     "lint": "eslint ."
   },
-  "homepage": "https://github.com/ne0bot/telegram-sender-adapter",
-  "author": "ne0bot",
+  "homepage": "https://github.com/mrstegeman/telegram-sender-adapter",
+  "author": "Michael Stegeman",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ne0bot/telegram-sender-adapter.git"
+    "url": "https://github.com/mrstegeman/telegram-sender-adapter.git"
   },
   "bugs": {
-    "url": "https://github.com/ne0bot/telegram-sender-adapter"
+    "url": "https://github.com/mrstegeman/telegram-sender-adapter"
   },
   "files": [
     "LICENSE",
