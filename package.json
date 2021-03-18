@@ -1,21 +1,21 @@
 {
   "name": "telegram-sender-adapter",
   "display_name": "Telegram",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "description": "Simple telegram sending actions. Needs to be configured with chatid and token.",
   "main": "index.js",
   "scripts": {
     "lint": "eslint ."
   },
-  "homepage": "https://github.com/ne0bot/telegram-sender-adapter",
-  "author": "ne0bot",
+  "homepage": "https://github.com/mrstegeman/telegram-sender-adapter",
+  "author": "Michael Stegeman",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ne0bot/telegram-sender-adapter.git"
+    "url": "https://github.com/mrstegeman/telegram-sender-adapter.git"
   },
   "bugs": {
-    "url": "https://github.com/ne0bot/telegram-sender-adapter"
+    "url": "https://github.com/mrstegeman/telegram-sender-adapter"
   },
   "files": [
     "LICENSE",
@@ -27,40 +27,12 @@
     "telegram-sender-adapter.js",
     "telegram-notifier.js"
   ],
-  "moziot": {
-    "api": {
-      "min": 2,
-      "max": 2
-    },
-    "type": "notifier",
-    "plugin": true,
-    "exec": "{nodeLoader} {path}",
-    "config": {
-      "token": "",
-      "chatid": ""
-    },
-    "schema": {
-      "type": "object",
-      "required": [
-        "token",
-        "chatid"
-      ],
-      "properties": {
-        "token": {
-          "type": "string"
-        },
-        "chatid": {
-          "type": "string"
-        }
-      }
-    }
-  },
   "dependencies": {
-    "node-telegram-bot-api": "^0.30.0"
+    "node-telegram-bot-api": "^0.50.0"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.5.1",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.11.0",
     "lint": "^0.7.0"
   }
 }
