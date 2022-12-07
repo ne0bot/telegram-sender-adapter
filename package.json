@@ -61,6 +61,6 @@
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.5.1",
-    "lint": "^0.7.0"
+    "lint": "^0.8.8"
   }
 }
